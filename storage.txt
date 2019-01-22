@@ -1,0 +1,163 @@
+
+
+g++ test1.cpp HashTable.cpp -o t1.out
+
+g++ test2.cpp HashTable.cpp -o t2.out
+
+g++ test3.cpp HashTable.cpp -o t3.out
+
+g++ test4.cpp HashTable.cpp -o t4.out
+
+g++ test5.cpp HashTable.cpp -o t5.out
+
+g++ Driver.cpp HashTable.cpp -o d.out
+
+cp HashTable.h HashTable.cpp Driver.cpp ~/cs341proj/proj5/
+
+
+g++ sondeko.cpp -o s.out
+
+
+
+  //this removes for a minheap
+  //removes first value and reorderes accordingly
+  template <typename T>
+  void Heap<T>::removeMin(int index){
+
+      //check if the item can be removed
+      if(index <= arraySize){
+        //remove the item, then replace as needed
+        //I only replace the item, removing the item (setting to null)
+        //needs every item type to have the same null
+
+        //take the last item, and trickle it down
+        array[index] = array[arraySize]; //replace with last
+        arraySize--; // update the size
+        //by decreasing the size the last item is "deleted"
+        //tthe last item is out of range, and thus "deleted"
+
+        int i = index;
+        int j = 0; // holder location
+        T holder;
+
+        //trickle down the value up for proper order
+        //very similar to a regular insert, with different ordering
+        while(i < arraySize){
+
+          //determine if swap is needed (it should be most times)
+          if( swapNeeded(array[j] < array[i] ){
+            //perform the swap, then quit
+            holder = array[i]; //hold i (parent)
+            array[i] = array[j]; //put child -> parent
+            array[j] = holder; //put parent -> child
+
+          }else{
+            return; //swaperation complete !
+          }
+
+          //indexing is second to have proper while loop
+          //prefer to pull from/ the right,
+          //howwver you must also pull from the greater child
+          //swapNeeded is ordered as (highervalue, deepervalue)
+          //for this case you want the bigger value in a maxheap
+          if( swapNeeded (array[2*i + 1] , array[2*i] ) ){
+            //pull left (left side of tree, lower in array)
+            j = i;
+            i = 2*i;
+          }else{ //pull from the right //right if equal
+            j = i;
+            i = 2*i + 1;
+          }
+
+        }
+      }else{ //throw an error, too many items
+        throw out_of_range("Too many items!");
+      }
+
+  }
+
+
+
+
+
+  //2*i  (left side )  2*i + 1 (right side)
+  //the insert function for a maxheap
+  template <typename T>
+  void Heap<T>::insertMin(T value){
+    if(arraySize < arrayCapacity){
+      int i = arraySize + 1; //this should be the next open spot
+      arraySize++; // adds to the size
+
+      int j = 0; // holder location
+      T holder;
+
+      //add the value
+      array[i] = value;
+
+      //trickle the value up for proper order
+      while(i > 1){
+
+        //this determines parent and child to swap
+        //left child
+        if(i%2 == 0){
+          j = i;
+          i = (i)/2;
+        }else{ //right child
+          j = i;
+          i = (i-1)/2;
+        }
+
+        //all that changes between min and max is < or >
+        //determine if swap is needed
+        if(array[i] > array[j] ){
+          //perform the swap, then quit
+          holder = array[i]; //hold i (parent)
+          array[i] = array[j]; //put child -> parent
+          array[j] = holder; //put parent -> child
+
+        }else{
+          return; //swaperation complete !
+        }
+
+      }
+    }else{ //throw an error, too many items
+      throw out_of_range("Too many items!");
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //Assignment Operator
+  // template <typename T>
+  // const Heap<T>& Heap<T>::operator=(const Heap<T>& rhs){
+  //
+  //   cerr << "ASSIGNMENT OPERATOR CAALLED\n\n";
+  //   //copy heap and copy variable values
+  //   //gaurd against self assignment
+  //   if(this == &rhs){
+  //     return *this;
+  //   }
+  //
+  //   //copy the array and private variables
+  //   arraySize = rhs.arraySize;
+  //   arrayCapacity = rhs.arrayCapacity;
+  //   //to ensure a good copy, array will be copied element by element
+  //   for(int i = 1; i <= arraySize; i++){
+  //     array[i] = rhs.array[i];
+  //   }
+  //
+  //   swapNeeded = rhs.swapNeeded;
+  //
+  //   return *this;
+  // }
