@@ -1,0 +1,6 @@
+      3 2 % 0 ==
+      IFTHEN
+        ."Math works" . CR
+ELSE
+        ."Talk like Yoda, we do" . CR
+ENDIF

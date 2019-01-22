@@ -1,0 +1,40 @@
+// File: test.sally
+//
+// CMSC341 Fall 2018 Project 2
+//
+// Sally FORTH source code
+//
+// Testing all!
+// 
+
+
+5 j SET
+5 . 
+
+DO
+
+  j @ 2 % 0 <= //test of <=
+  IFTHEN
+    j @ 0 > 
+    IFTHEN //avoids negatives
+    j @ 3 - j !    // j = j-3    
+    j @ . CR       // print j
+    ELSE
+    j 5 ! //redefines j to 5
+    ENDIF
+ 
+  ELSE
+  j @ j @ + 5 DROP j ! //doubles j. Ignores 5 (drop)
+  j @ . CR
+  ENDIF
+
+j @ 200 >= UNTIL  // until j >= 10
+
+
+//test of stack operations
+15 DUP . SP . CR          // Prints 15 15 
+
+20 30 SWAP . SP  . CR     // Prints 20 30
+
+1 3 2 ROT . SP . SP . CR  // Prints 1 2 3
+

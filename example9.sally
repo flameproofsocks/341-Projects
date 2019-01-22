@@ -1,0 +1,69 @@
+// File: example8.sally
+//
+// CMSC341 Fall 2018 Project 2
+//
+// Sally FORTH source code
+//
+// Testing DO UNTIL loop
+// prints 1 through 10 inclusive
+// 
+
+."Tthis should keep subtrating and doubling until 1000 tests loop and if nesting" . CR
+5 j SET
+
+DO
+  j @ 2 % 0 ==
+  IFTHEN
+  j @ 1 - j !
+  j @ . CR   // j-- and print
+  ELSE
+  j @ j @ 5 DROP + j ! //test of drop
+  j @ . CR
+  ENDIF
+
+j @ 1000 >= UNTIL  // until j >= 10
+
+15 DUP . SP . CR //print 15 15
+
+2 3 SWAP . SP . CR //swap
+
+11 33 22 ROT . SP . SP . CR //rotate
+
+//testng of nested if and comparison operators
+
+10 20 > //if 10 > 20 (false)
+IFTHEN
+."Bad Math" . CR
+ELSE
+10 20 <
+  IFTHEN
+  ."Good Math" . CR
+  ELSE
+  ."Math please work" . CR
+  ENDIF
+ENDIF
+//should print goodmath
+
+//test of and and or and not
+10 5 > 10 20 < AND
+IFTHEN
+."10 is between 5 and 20" . CR
+ELSE
+."10 is somewhere" . CR
+ENDIF
+
+//test of not and or
+."SHOULD PRINT: true true" . CR CR
+1 1 == 1 2 == OR
+IFTHEN
+."true" . CR
+ELSE
+."false" . CR
+ENDIF
+
+1 0 == 1 0 <= OR NOT
+IFTHEN
+."true" . CR
+ELSE
+."false" . CR
+ENDIF
